@@ -132,3 +132,9 @@ dist
 .source/index.ts
 .source/source.config.mjs
 
+
+# clerk configuration (can include secrets)
+/.clerk/
+
+# music poster images (temporary files for description generation)
+music_poster/

@@ -1,39 +1,25 @@
 import { i18n } from '@/i18n';
-import { appConfig } from '@/lib/appConfig';
 import { SiteIcon } from '@/lib/site-config';
-import { globalLucideIcons as icons } from '@windrun-huaiin/base-ui/components/server';
-import { ClerkUser } from '@windrun-huaiin/third-ui/clerk';
+// import { globalLucideIcons as icons } from '@windrun-huaiin/base-ui/components/server';
 import { type LinkItemType } from 'fumadocs-ui/layouts/docs';
 import { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { getTranslations } from 'next-intl/server';
 
 // home page normal menu
-export async function homeNavLinks(locale: string): Promise<LinkItemType[]> {
-  const t1 = await getTranslations({ locale: locale, namespace: 'linkPreview' });
+export async function homeNavLinks(_locale: string): Promise<LinkItemType[]> {
+  // const t1 = await getTranslations({ locale: locale, namespace: 'linkPreview' });
   return [
-    {
-      icon: <icons.BugOff />,
-      text: t1('blog'),
-      url: `/${locale}/blog`,
-    },
-    {
-      icon: <icons.BTC />,
-      text: t1('pricing'),
-      url: `/${locale}#pricing`,
-    },
-    {
-      type: 'custom',
-      // false to put the menu on the left, true to put the button on the right
-      secondary: true,
-      // NicknameFilter is also used in its internal useNickname
-      children: <ClerkUser locale={locale} clerkAuthInModal={appConfig.style.clerkAuthInModal} />
-    },
+    // {
+    //   icon: <icons.BugOff />,
+    //   text: t1('blog'),
+    //   url: `/${locale}/blog`,
+    // },
+    
   ];
 }
 
 // level special menu
-export async function levelNavLinks(locale: string): Promise<LinkItemType[]> {
-  console.log('levelNavLinks TODO: add links here', locale);
+export async function levelNavLinks(_locale: string): Promise<LinkItemType[]> {
   return [];
 }
 
@@ -53,6 +39,6 @@ export async function baseOptions(locale: string): Promise<BaseLayoutProps> {
       transparentMode: 'none',
     },
     i18n,
-    githubUrl: appConfig.github,
+    
   };
 }

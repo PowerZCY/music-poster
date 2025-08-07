@@ -1,0 +1,35 @@
+import { Poster } from '@/types/poster'
+
+// Cloudflare R2 base URL - 请替换为你的实际URL
+const R2_BASE_URL = 'https://your-bucket.r2.cloudflarestorage.com/posters'
+
+export const WALL_POSTERS_BATCH3: Poster[] = [
+  {
+    id: 'Classical-Instruments-Gallery',
+    imageUrl: `${R2_BASE_URL}/music-poster-wall/classical-instruments-gallery.webp`,
+    category: 'music-poster-wall',
+    tags: ['classical', 'instruments', 'violin', 'geometric', 'minimalist'],
+    description: `This sophisticated quintet of artwork transforms classical instruments into modern geometric art, creating an elegant homage to the timeless beauty of orchestral music. The collection features carefully abstracted representations of string instruments, with two prominent violin silhouettes rendered in rich black against warm cream backgrounds, their familiar curves transformed into bold graphic elements. The central piece presents a fascinating geometric interpretation of musical elements, with overlapping circles and angular forms in warm terracotta and rust tones that suggest both the physical construction of instruments and the mathematical precision underlying musical harmony. Each piece maintains the essential character of its subject while stripping away unnecessary detail, creating a visual language that speaks to both classical music aficionados and contemporary design enthusiasts. The arrangement creates a dialogue between individual instruments and their collective identity as components of orchestral music. Set in this refined interior with its mid-century modern furniture and neutral palette, the artwork elevates the space to gallery status while maintaining residential warmth. The consistent cream backgrounds and black frames create unity across the diverse compositions, while the varied approaches to abstraction keep each piece visually distinct and engaging. This collection would be perfect for music conservatories, the homes of classical musicians, or any space where traditional craftsmanship meets contemporary aesthetics. The pieces celebrate not just the visual beauty of musical instruments but their role as bridges between human creativity and mathematical perfection, between individual expression and collaborative harmony. The geometric approach suggests that these instruments represent more than tools for making music – they are cultural artifacts that embody centuries of artistic and technical evolution.`,
+  },
+  {
+    id: 'Piano-Manuscript-Gallery',
+    imageUrl: `${R2_BASE_URL}/music-poster-wall/piano-manuscript-gallery.webp`,
+    category: 'music-poster-wall',
+    tags: ['piano', 'manuscript', 'sheet music', 'classical', 'portrait'],
+    description: `This exquisite gallery wall creates a sanctuary for classical music, where vintage sheet music and a striking portrait combine to celebrate the rich heritage of piano performance and composition. The arrangement features multiple authentic musical manuscripts, their aged parchment and handwritten notations bearing witness to centuries of musical creativity. A beautifully rendered treble clef serves as the visual anchor for the left side, its bold black curves creating an elegant contrast against the delicate musical staves surrounding it. The centerpiece portrait captures the essence of classical performance with dramatic lighting and sophisticated composition, suggesting both the technical mastery and emotional depth required for great musical interpretation. The presence of the piano below isn't merely functional but integral to the artistic statement – its dark wood and pristine keys echo the monochromatic palette of the artwork above while providing the means to bring these written compositions to life. This space represents the perfect marriage of visual and auditory art, where the written record of musical genius serves as both historical document and contemporary decoration. The black walls create an intimate, library-like atmosphere that suggests serious musical study and contemplation. This type of installation appeals to those who understand that musical notation is itself a form of visual poetry, a written language that captures the ephemeral beauty of sound and preserves it for future generations. The careful arrangement of manuscripts at various sizes and orientations creates visual rhythm that mirrors the musical concepts they represent. This is more than decoration – it's a tribute to the entire ecosystem of classical music, from composition to notation to performance, creating a space where past and present musical traditions converge in harmonious display.`,
+  },
+  {
+    id: 'Rock-Concert-Collection',
+    imageUrl: `${R2_BASE_URL}/music-poster-wall/rock-concert-collection.webp`,
+    category: 'music-poster-wall',
+    tags: ['rock', 'concert posters', 'red', 'gallery wall', 'rebellion'],
+    description: `This powerful gallery wall transforms a living space into a shrine to rock music's rebellious spirit, where bold red and black concert posters create a visual crescendo that captures the energy and attitude of live rock performance. The collection features an eclectic mix of promotional materials, from abstract drummer silhouettes against dramatic red backdrops to detailed venue information and band graphics that speak to different eras of rock culture. The dominant red color scheme creates unity while allowing individual posters to maintain their distinct personalities – some featuring bold typography, others emphasizing imagery, and several combining both in the classic tradition of rock poster art. The arrangement itself suggests the controlled chaos of a rock show, with pieces of varying sizes creating visual rhythm that mirrors the syncopated beats of rock music. A striking "République" poster anchors the composition with its bold graphics and vintage typography, while abstract pieces suggest the atmospheric and emotional aspects of live performance. The modern living room setting, with its charcoal sofa and acoustic guitar, bridges the gap between the raw energy of rock culture and contemporary domestic comfort. This type of display appeals to those who see rock music not just as entertainment but as a form of cultural rebellion and artistic expression. The posters serve as both historical documents and ongoing inspiration, reminding viewers of music's power to challenge, inspire, and unite. The careful curation transforms ephemeral promotional materials into a cohesive artistic statement about the enduring appeal of rock music. Each piece contributes to a larger narrative about the relationship between musicians and their audiences, between commercial promotion and artistic integrity, creating a space that celebrates rock music's ability to transform both venues and lives.`,
+  },
+]
+
+// 批量重命名函数示例
+export const renameFilesBatch3 = [
+  { original: '0_2 (4).webp', new: 'classical-instruments-gallery.webp' },
+  { original: '0_2 (5).webp', new: 'piano-manuscript-gallery.webp' },
+  { original: '0_2 (6).webp', new: 'rock-concert-collection.webp' },
+]

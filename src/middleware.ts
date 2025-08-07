@@ -1,4 +1,3 @@
-import { clerkMiddleware, ClerkMiddlewareAuth, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { appConfig } from "@/lib/appConfig";
@@ -11,17 +10,8 @@ const intlMiddleware = createMiddleware({
   localeDetection: false
 });
 
-// TODO
-const allowPassWhitelist = createRouteMatcher(['/(.*)'])
 
-export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, req: NextRequest) => {
-  if (!allowPassWhitelist(req)) {
-      const { userId, redirectToSignIn } = await auth()
-      if (!userId) {
-          return redirectToSignIn()
-      }
-      console.log('User is authorized:', userId)
-  }
+export function middleware(req: NextRequest) {
 
   // handle root path to default locale permanent redirect
   if (req.nextUrl.pathname === '/') {
@@ -36,8 +26,7 @@ export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, req: NextReques
   }
 
   return intlMiddleware(req);
-}, { debug: appConfig.clerk.debug }
-);
+}
 
 export const config = {
   matcher: [
