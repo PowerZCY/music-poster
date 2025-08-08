@@ -1,0 +1,13 @@
+# Music Poster Gallery
+
+> A curated music poster collection platform providing high-quality poster resources for music enthusiasts
+
+## Core Features
+- [Poster Browsing](https://music-poster.com/en): Beautiful music poster gallery with category filtering
+- [Free Downloads](https://music-poster.com/en): High-resolution posters available for free personal use
+- [Category Navigation](https://music-poster.com/en): Organized by themes like earphones, country music, music classroom, and wall art
+
+## Main Pages
+- [Home Gallery](https://music-poster.com/en): Featured poster showcase with intuitive visual experience
+- [Category Pages](https://music-poster.com/en/category): Browse by theme to find your preferred style
+- [Poster Details](https://music-poster.com/en/poster): Individual poster information and download options
