@@ -1,15 +1,10 @@
-'use client'
-
 import { PosterCard } from '@/components/posters/PosterCard'
+import { PosterDetailClient } from '@/components/poster-detail-client'
 import { CATEGORIES, getPosterById, getRelatedPosters } from '@/data/posters'
-import { appConfig } from '@/lib/appConfig'
-import { globalLucideIcons as icons } from '@windrun-huaiin/base-ui/components/server'
-import { GradientButton } from '@windrun-huaiin/third-ui/fuma/mdx'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { use, useState } from 'react'
 
 interface PosterDetailPageProps {
   params: Promise<{
@@ -18,13 +13,10 @@ interface PosterDetailPageProps {
   }>
 }
 
-export default function PosterDetailPage({ params }: PosterDetailPageProps) {
-  const resolvedParams = use(params)
+export default async function PosterDetailPage({ params }: PosterDetailPageProps) {
+  const resolvedParams = await params
   const { locale, id } = resolvedParams
-  const t = useTranslations('posters')
-  
-  // Download state
-  const [isDownloading, setIsDownloading] = useState(false)
+  const t = await getTranslations({ locale, namespace: 'posters' })
   
   // Get poster data
   const poster = getPosterById(id)
@@ -37,70 +29,6 @@ export default function PosterDetailPage({ params }: PosterDetailPageProps) {
   
   // Get category info
   const categoryInfo = CATEGORIES.find(cat => cat.id === poster.category)
-  
-  // CDN proxy URL - you need to provide the actual proxy server URL
-  const cdnProxyUrl = appConfig.style
-  
-  // Handle download
-  const handleDownload = async () => {
-    // prevent duplicate clicks
-    if (isDownloading) {
-      return;
-    }
-
-    // set download status
-    setIsDownloading(true);
-
-    try {
-      // use R2 proxy to download directly, no need to fetch
-      // convert original R2 URL to proxy URL
-      const originalUrl = new URL(poster.imageUrl);
-      const filename = originalUrl.pathname.substring(1);
-
-      // build proxy download URL
-      const proxyUrl = `${cdnProxyUrl}/${encodeURIComponent(filename)}`;
-
-      // extract file extension from URL
-      const urlExtension = poster.imageUrl.split('.').pop()?.toLowerCase();
-      let extension = '.webp';
-      if (urlExtension && ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(urlExtension)) {
-        extension = `.${urlExtension}`;
-      }
-      const downloadPrefix = t('downloadPrefix');
-
-      // fetch file from proxy
-      const response = await fetch(proxyUrl);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      // convert to blob
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-
-      // create download link and trigger download
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = `${downloadPrefix}-${poster.id.toLowerCase()}${extension}`;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-
-      // clean up DOM elements and blob URL
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
-      }, 100);
-
-    } catch (error) {
-      console.error('Download failed:', error);
-      alert(t('downloadError'));
-    } finally {
-      // clear download status
-      setIsDownloading(false);
-    }
-  }
   
   return (
     <>
@@ -185,15 +113,12 @@ export default function PosterDetailPage({ params }: PosterDetailPageProps) {
             </div>
             
             {/* Download Button */}
-
-            <div className="pt-2">
-              <GradientButton
-                title={t('download')}
-                onClick={handleDownload}
-                disabled={isDownloading}
-                icon={ isDownloading ? <icons.Loader2 className="h-5 w-5 animate-spin mx-auto" /> : <icons.Download className="h-5 w-5 text-white" />}
-              />
-            </div>
+            <PosterDetailClient
+              poster={poster}
+              downloadText={t('download')}
+              downloadPrefix={t('downloadPrefix')}
+              downloadErrorText={t('downloadError')}
+            />
           </div>
         </div>
         

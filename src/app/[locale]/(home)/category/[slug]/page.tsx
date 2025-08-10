@@ -1,13 +1,9 @@
-'use client'
-
-import { useState, useCallback } from 'react'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { CategoryFilter } from '@/components/posters/CategoryFilter'
-import { PosterGrid } from '@/components/posters/PosterGrid'
+import { CategoryPageClient } from '@/components/category-page-client'
 import { getPaginatedPosters, CATEGORIES } from '@/data/posters'
 import { PosterCategory } from '@/types/poster'
-import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main"
+import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main/server"
 
 interface CategoryPageProps {
   params: Promise<{
@@ -16,10 +12,10 @@ interface CategoryPageProps {
   }>
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const resolvedParams = use(params)
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const resolvedParams = await params
   const { locale, slug } = resolvedParams
-  const t = useTranslations('posters')
+  const t = await getTranslations({ locale, namespace: 'posters' })
   
   // Validate category
   const category = CATEGORIES.find(cat => cat.id === slug)
@@ -28,21 +24,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   }
   
   // Initial data load with category filter
-  const [currentPage, setCurrentPage] = useState(1)
   const initialData = getPaginatedPosters(1, 20, { category: slug as PosterCategory })
-  
-  // Load more function for infinite scroll
-  const loadMore = useCallback(async () => {
-    const nextPage = currentPage + 1
-    const data = getPaginatedPosters(nextPage, 20, { category: slug as PosterCategory })
-    
-    if (data.posters.length > 0) {
-      setCurrentPage(nextPage)
-      return data.posters
-    }
-    
-    return []
-  }, [currentPage, slug])
   
   return (
     <>
@@ -58,29 +40,18 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           </p>
         </div>
         
-        {/* Category Filter */}
-        <div className="px-4 mb-4">
-          <CategoryFilter 
-            currentCategory={slug as PosterCategory}
-            locale={locale} 
-          />
-        </div>
-        
-        {/* Poster Grid */}
-        <PosterGrid
+        {/* Client-side interactive components */}
+        <CategoryPageClient
           initialPosters={initialData.posters}
-          loadMore={loadMore}
+          totalPages={initialData.totalPages}
+          slug={slug}
           locale={locale}
-          hasMore={currentPage < initialData.totalPages}
         />
       </section>
       
       {/* Keep existing SaaS components */}
-      <SeoContent />
-      <FAQ />
+      <SeoContent locale={locale} />
+      <FAQ locale={locale} />
     </>
   )
 }
-
-// Add React use hook import
-import { use } from 'react'

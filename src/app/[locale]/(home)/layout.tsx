@@ -1,7 +1,8 @@
 import { baseOptions, homeNavLinks, levelNavLinks } from '@/app/[locale]/layout.config';
 import { showBanner } from '@/lib/appConfig';
-import { FumaBannerSuit } from '@windrun-huaiin/third-ui/fuma/mdx';
-import { Footer, GoToTop } from '@windrun-huaiin/third-ui/main';
+import { FumaBannerSuit } from '@windrun-huaiin/third-ui/fuma/server';
+import { GoToTop } from '@windrun-huaiin/third-ui/main';
+import { Footer } from '@windrun-huaiin/third-ui/main/server';
 import { HomeLayout, type HomeLayoutProps } from 'fumadocs-ui/layouts/home';
 import type { ReactNode } from 'react';
 
@@ -36,10 +37,10 @@ export default async function Layout({
           mode: 'light-dark-system',
         }}
         className={`min-h-screen flex flex-col bg-neutral-100 dark:bg-neutral-900 transition-colors duration-300 ${showBanner ? 'pt-25 has-banner' : 'pt-15 no-banner'}`}
-        >
-        <FumaBannerSuit showBanner={showBanner}/>
+        > 
+        <FumaBannerSuit showBanner={showBanner} locale={locale}/>
         {children}
-        <Footer />
+        <Footer locale={locale} />
         <GoToTop />
       </HomeLayout>
   );

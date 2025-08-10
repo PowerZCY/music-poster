@@ -1,33 +1,10 @@
-'use client'
-
-import { useState, useCallback } from 'react'
-import { useTranslations } from 'next-intl'
-import { useParams } from 'next/navigation'
-import { CategoryFilter } from '@/components/posters/CategoryFilter'
-import { PosterGrid } from '@/components/posters/PosterGrid'
+import { HeroClient } from '@/components/hero-client'
 import { getPaginatedPosters } from '@/data/posters'
+import { getTranslations } from 'next-intl/server'
 
-export function Hero() {
-  const t = useTranslations('posters')
-  const params = useParams()
-  const locale = params.locale as string
-  
-  // Initial data load - same as Category page
-  const [currentPage, setCurrentPage] = useState(1)
+export async function Hero({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'posters' });
   const initialData = getPaginatedPosters(1, 20)
-  
-  // Load more function for infinite scroll
-  const loadMore = useCallback(async () => {
-    const nextPage = currentPage + 1
-    const data = getPaginatedPosters(nextPage, 20)
-    
-    if (data.posters.length > 0) {
-      setCurrentPage(nextPage)
-      return data.posters
-    }
-    
-    return []
-  }, [currentPage])
   
   return (
     <section className="3xl mx-auto px-4 py-8">
@@ -44,15 +21,11 @@ export function Hero() {
         </p>
       </div>
       
-      {/* Category Filter */}
-      <CategoryFilter locale={locale} />
-      
-      {/* Poster Grid */}
-      <PosterGrid
+      {/* Client-side interactive components */}
+      <HeroClient
         initialPosters={initialData.posters}
-        loadMore={loadMore}
+        totalPages={initialData.totalPages}
         locale={locale}
-        hasMore={currentPage < initialData.totalPages}
       />
     </section>
   )

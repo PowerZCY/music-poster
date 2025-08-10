@@ -1,14 +1,13 @@
-'use client';
-
 import { Hero } from "@/components/hero";
-import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main";
+import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main/server";
 
-export default function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   return (
     <>
-      <Hero />
-      <SeoContent />
-      <FAQ />
+      <Hero locale={locale} />
+      <SeoContent locale={locale} />
+      <FAQ locale={locale} />
     </>
   )
 }
