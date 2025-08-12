@@ -4,12 +4,51 @@ import { CategoryPageClient } from '@/components/category-page-client'
 import { getPaginatedPosters, CATEGORIES } from '@/data/posters'
 import { PosterCategory } from '@/types/poster'
 import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main/server"
+import { appConfig } from '@/lib/appConfig'
+import { Metadata } from 'next'
 
 interface CategoryPageProps {
   params: Promise<{
     locale: string
     slug: string
   }>
+}
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const resolvedParams = await params
+  const { locale, slug } = resolvedParams
+  const t = await getTranslations({ locale, namespace: 'posters' })
+  
+  // Validate category
+  const category = CATEGORIES.find(cat => cat.id === slug)
+  if (!category) {
+    return {}
+  }
+  
+  const categoryName = t(category.nameKey)
+  const title = `${categoryName} Posters - Free Download`
+  const description = `Explore our collection of ${categoryName.toLowerCase()} posters. ${category.description}. Free download, no registration required. High-quality designs for personal and commercial use.`
+  const canonicalUrl = `${appConfig.baseUrl}/${locale}/category/${slug}`
+  
+  return {
+    title,
+    description,
+    keywords: `${categoryName.toLowerCase()} music posters, free download, poster design, wall art, printable posters`,
+    metadataBase: new URL(appConfig.baseUrl),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        "en": `${appConfig.baseUrl}/en/category/${slug}`,
+      }
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      locale: locale,
+    }
+  }
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {

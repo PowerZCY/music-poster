@@ -5,12 +5,71 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { appConfig } from '@/lib/appConfig'
+import { Metadata } from 'next'
 
 interface PosterDetailPageProps {
   params: Promise<{
     locale: string
     id: string
   }>
+}
+
+export async function generateMetadata({ params }: PosterDetailPageProps): Promise<Metadata> {
+  const resolvedParams = await params
+  const { locale, id } = resolvedParams
+  const t = await getTranslations({ locale, namespace: 'posters' })
+  
+  // Get poster data
+  const poster = getPosterById(id)
+  if (!poster) {
+    return {}
+  }
+  
+  // Generate poster title from ID (convert hyphens to spaces and capitalize)
+  const posterTitle = poster.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+  const title = `${posterTitle} - Free Music Poster`
+  
+  // Generate description using tags-based template
+  let description: string
+  if (poster.tags && poster.tags.length > 0) {
+    description = `Download free music poster. Features: ${poster.tags.join(', ')}. High-quality WebP format, perfect for personal and commercial use. No registration required.`
+  } else {
+    description = t('defaultDescription').substring(0, 160)
+  }
+  
+  const canonicalUrl = `${appConfig.baseUrl}/${locale}/poster/${id}`
+  const keywords = poster.tags && poster.tags.length > 0 
+    ? `${poster.tags.join(', ')}, free download, music poster, wall art, ${posterTitle.toLowerCase()}`
+    : `music poster, free download, wall art, ${posterTitle.toLowerCase()}`
+  
+  return {
+    title,
+    description,
+    keywords,
+    metadataBase: new URL(appConfig.baseUrl),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        "en": `${appConfig.baseUrl}/en/poster/${id}`,
+      }
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'article',
+      locale: locale,
+      images: [
+        {
+          url: poster.imageUrl,
+          width: 600,
+          height: 800,
+          alt: posterTitle,
+        }
+      ],
+    }
+  }
 }
 
 export default async function PosterDetailPage({ params }: PosterDetailPageProps) {
