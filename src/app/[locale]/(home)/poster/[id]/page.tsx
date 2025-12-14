@@ -120,7 +120,7 @@ export default async function PosterDetailPage({ params }: PosterDetailPageProps
         <div className="grid lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           {/* Image Section */}
           <div className="lg:col-span-2">
-            <div className="relative aspect-[3/4] w-full max-w-2xl mx-auto rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-800">
+            <div className="relative aspect-3/4 w-full max-w-2xl mx-auto rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-800">
               <Image
                 src={poster.imageUrl}
                 alt={poster.id}

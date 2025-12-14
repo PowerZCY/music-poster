@@ -41,7 +41,7 @@ export function CategoryFilter({ currentCategory, locale }: CategoryFilterProps)
           className={`
             px-4 py-2 rounded-full font-medium transition-all duration-200
             ${isHomePage && !currentCategory
-              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+              ? 'bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg'
               : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-700'
             }
           `}
@@ -57,7 +57,7 @@ export function CategoryFilter({ currentCategory, locale }: CategoryFilterProps)
             className={`
               px-4 py-2 rounded-full font-medium transition-all duration-200 flex items-center gap-2
               ${currentCategory === category.id
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+                ? 'bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg'
                 : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-700'
               }
             `}
@@ -78,7 +78,7 @@ export function CategoryFilter({ currentCategory, locale }: CategoryFilterProps)
               className={`
                 px-4 py-2 rounded-full font-medium transition-all duration-200 flex items-center gap-2
                 ${currentCategory === category.id
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+                  ? 'bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg'
                   : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-700'
                 }
               `}

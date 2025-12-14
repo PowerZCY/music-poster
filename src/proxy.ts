@@ -11,7 +11,7 @@ const intlMiddleware = createMiddleware({
 });
 
 
-export function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest) {
 
   // handle root path to default locale permanent redirect
   if (req.nextUrl.pathname === '/') {

@@ -20,12 +20,12 @@ export function PosterCard({ poster, locale, priority = false }: PosterCardProps
       href={`/${locale}/poster/${poster.id}`}
       className="group relative block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
-      <div className="relative aspect-[3/4] w-full">
+      <div className="relative aspect-3/4 w-full">
         {/* Enhanced loading state with shimmer effect */}
         {imageLoading && !imageError && (
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900">
+          <div className="absolute inset-0 bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900">
             {/* Shimmer animation */}
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/60 dark:via-white/10 to-transparent" />
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-linear-to-r from-transparent via-white/60 dark:via-white/10 to-transparent" />
             
             {/* Subtle loading indicator */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -35,7 +35,7 @@ export function PosterCard({ poster, locale, priority = false }: PosterCardProps
         )}
         
         {imageError ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900">
             <div className="text-neutral-400 dark:text-neutral-500 text-2xl mb-2">🎵</div>
             <span className="text-neutral-500 dark:text-neutral-400 text-sm">Image unavailable</span>
           </div>
@@ -58,7 +58,7 @@ export function PosterCard({ poster, locale, priority = false }: PosterCardProps
         )}
         
         {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="absolute bottom-0 left-0 right-0 p-4">
             <h3 className="text-white font-semibold text-lg line-clamp-2">
               {poster.id.replace(/-/g, ' ')}

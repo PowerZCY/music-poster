@@ -7,12 +7,12 @@ export async function Hero({ locale }: { locale: string }) {
   const initialData = getPaginatedPosters(1, 20)
   
   return (
-    <section className="3xl mx-auto px-4 py-8">
+    <section className="mt-13 3xl mx-auto px-4 py-8">
       {/* Title and Description */}
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-5xl font-bold mb-4">
           {t('title')}
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+          <span className="block text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-600">
             {t('subtitle')}
           </span>
         </h1>

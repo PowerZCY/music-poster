@@ -24,14 +24,22 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [ "./src/*" ],
-      ".source/*": ["./.source/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      ".source/*": [
+        "./.source/*"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "eslint.config.mjs"]
+  "exclude": [
+    "node_modules",
+    "eslint.config.mjs"
+  ]
 }

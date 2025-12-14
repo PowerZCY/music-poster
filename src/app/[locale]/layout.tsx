@@ -1,14 +1,14 @@
 import { appConfig, generatedLocales } from "@/lib/appConfig";
-import { fumaI18nCn } from '@windrun-huaiin/third-ui/lib/server';
+import { montserrat } from '@/lib/fonts';
+import { GoogleAnalyticsScript, MicrosoftClarityScript } from "@windrun-huaiin/base-ui/components/server";
+import { cn } from '@windrun-huaiin/lib/utils';
+import { getFumaTranslations } from '@windrun-huaiin/third-ui/fuma/server';
 import { NProgressBar } from '@windrun-huaiin/third-ui/main';
-import { RootProvider } from "fumadocs-ui/provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
-import './globals.css';
 import React from 'react';
-import { GoogleAnalyticsScript } from "@windrun-huaiin/base-ui/components";
-import { MicrosoftClarityScript } from "@windrun-huaiin/base-ui/components";
-import { montserrat } from '@/lib/fonts';
+import './globals.css';
 
 export const dynamic = 'force-dynamic'
 
@@ -51,20 +51,21 @@ export default async function RootLayout({
   const { locale } = await paramsPromise;
   setRequestLocale(locale);
   const messages = await getMessages();
+  const fumaTranslations = await getFumaTranslations(locale);
   return (
     <html lang={locale} suppressHydrationWarning>
       <NextIntlClientProvider messages={messages}>
-        <body className={montserrat.className}>
+        <body className={cn(montserrat.className)}>
           <NProgressBar />
           <RootProvider
-            i18n={{
-              locale: locale,
-              locales: generatedLocales,
-              translations: { fumaI18nCn }[locale],
-            }}
-          >
-            {children}
-          </RootProvider>
+              i18n={{
+                locale: locale,
+                locales: generatedLocales,
+                translations: fumaTranslations,
+              }}
+            >
+              {children}
+            </RootProvider>
         </body>
         <GoogleAnalyticsScript />
         <MicrosoftClarityScript />
