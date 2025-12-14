@@ -1,0 +1,9 @@
+# music-poster
+
+## 2.0.0
+
+### Major Changes
+
+- feature(upgrade): windrun-huaiin packages upgrade
+  - Components adaptor for Mobile clients
+  - security(dependcy): CNVD-2025-29923 about NextJS Remote2Shell issue fixed
