@@ -76,12 +76,57 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Custom code transformers for notation handling and language detection
 
 ### Music Poster Feature
-- **Data Management**: Poster metadata stored in `/src/data/posters.ts` (replace R2_BASE_URL with actual Cloudflare R2 bucket URL)
-- **Categories**: Earphone, Music Class, Country Music, Music Poster Wall
-- **Components**: PosterGrid with infinite scroll, CategoryFilter, PosterCard with hover effects
+- **Data Management**: Poster metadata stored in `/src/data/posters.ts` with Cloudflare R2 bucket URL
+- **Categories**: 12 music categories across diverse genres and themes
+  - **Main Categories (First Row)**: Earphone, Music Class, Country Music, Music Poster Wall, Music Store, Classical Music
+  - **Extended Categories (Second Row)**: Jazz, Folk Music, Festival Music, Street Music, Seasonal Music, World Music
+- **Components**: 
+  - PosterGrid with infinite scroll and category filtering
+  - CategoryFilter with two-row layout (main categories + extended categories)
+  - PosterCard with hover effects and download functionality
 - **Routes**: 
   - Home page shows all posters with category filter
-  - `/category/[slug]` for filtered category views
+  - `/category/[slug]` for filtered category views  
   - `/poster/[id]` for individual poster details with download
 - **Performance**: Pagination (20 posters per load), lazy loading images, responsive grid (4 cols desktop, 2 cols mobile)
-- **Important**: Add actual poster data to `POSTERS` array in `/src/data/posters.ts` with correct Cloudflare R2 URLs
+- **Content Library**: 184+ high-quality music posters with detailed descriptions and comprehensive tagging
+
+### Image Processing Workflow
+- **Source Location**: `/music_poster/` directory with multiple subfolders (music_class, earphone, music_store, all)
+- **Processing Strategy**: Systematic batch processing of images with descriptive renaming
+- **File Naming Convention**: Convert chaotic AI-generated names to descriptive English names (e.g., `u5338527161_earphone_music_poster_--chaos_25.webp` → `Cute-Anime-Girl-Earphones.webp`)
+- **Content Analysis**: Visual examination of each image to generate accurate 300-500 word descriptions
+- **Categorization System**: Smart categorization based on visual content, musical instruments, themes, and styles
+- **Quality Control**: All processed images include comprehensive metadata, tags, and SEO-optimized descriptions
+
+## Recent Updates (2025-01-09)
+
+### Content Processing - Sixth Round
+- **Processed Images**: 10 high-quality posters from `/music_poster/all/` directory
+- **File Renaming**: Converted chaotic AI-generated filenames to descriptive English names
+  - Example: `0_0 (17).webp` → `Retro-Bass-Player-Studio-Art.webp`
+- **New Poster Categories Added**:
+  - **Jazz** 🎺 - Added `Blue-Saxophone-Floral-Design` poster
+  - **Folk Music** 🪕 - Added `Folk-Music-Band-City-Birds` and `Desert-Sunset-Banjo-Player` posters
+- **Category Distribution**: Music Poster Wall (4), Classical Music (3), Country Music (1), Music Class (1), Jazz (1), Folk Music (1)
+
+### Technical Enhancements
+- **Type System**: Updated `PosterCategory` type to include 'jazz' and 'folk-music'
+- **Data Structure**: Added 2 new categories to `CATEGORIES` array in `/src/data/posters.ts`
+- **Internationalization**: Updated `/messages/en.json` with translations for new categories
+- **UI Layout**: Modified `CategoryFilter` component for two-row display:
+  - **Row 1**: All Posters + 6 main categories
+  - **Row 2**: Jazz + Folk Music (new categories) + other extended categories
+
+### Content Library Status
+- **Total Posters**: 184 high-quality music posters
+- **Total Categories**: 12 diverse music categories
+- **Processing Progress**: Completed 6 rounds of systematic image processing
+- **Remaining Content**: Large volume of unprocessed images in `/music_poster/all/` directory awaiting future processing
+
+### Quality Standards Maintained
+- ✅ All code passes ESLint checks
+- ✅ Comprehensive 300-500 word descriptions for each poster
+- ✅ Detailed tagging system for improved searchability
+- ✅ Consistent file naming and organization
+- ✅ SEO-optimized content structure

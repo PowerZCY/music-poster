@@ -1,4 +1,4 @@
-export type PosterCategory = 'earphone' | 'music-class' | 'country-music' | 'music-poster-wall' | 'music-store'
+export type PosterCategory = 'earphone' | 'music-class' | 'country-music' | 'music-poster-wall' | 'music-store' | 'festival-music' | 'classical-music' | 'street-music' | 'seasonal-music' | 'world-music' | 'jazz' | 'folk-music'
 
 export interface Poster {
   id: string

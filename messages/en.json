@@ -28,7 +28,14 @@
       "musicClass": "Music Class",
       "countryMusic": "Country Music",
       "musicPosterWall": "Music Poster Wall",
-      "musicStore": "Music Store"
+      "musicStore": "Music Store",
+      "festivalMusic": "Festival Music",
+      "classicalMusic": "Classical Music",
+      "streetMusic": "Street Music",
+      "seasonalMusic": "Seasonal Music",
+      "worldMusic": "World Music",
+      "jazz": "Jazz",
+      "folkMusic": "Folk Music"
     },
     "home": "Home",
     "download": "Download Poster",
