@@ -2361,12 +2361,29 @@ export const POSTERS: Poster[] = [
 ]
 
 // Helper functions
+const uniquePosters: Poster[] = []
+const seenPosterIds = new Set<string>()
+
+for (const poster of POSTERS) {
+  if (seenPosterIds.has(poster.id)) continue
+  seenPosterIds.add(poster.id)
+  uniquePosters.push(poster)
+}
+
+export const UNIQUE_POSTERS = uniquePosters
+
+const postersByCategory = UNIQUE_POSTERS.reduce<Record<PosterCategory, Poster[]>>((acc, poster) => {
+  acc[poster.category] = acc[poster.category] || []
+  acc[poster.category].push(poster)
+  return acc
+}, {} as Record<PosterCategory, Poster[]>)
+
 export function getPostersByCategory(category: PosterCategory): Poster[] {
-  return POSTERS.filter(poster => poster.category === category)
+  return (postersByCategory[category] || []).slice()
 }
 
 export function getPosterById(id: string): Poster | undefined {
-  return POSTERS.find(poster => poster.id === id)
+  return UNIQUE_POSTERS.find(poster => poster.id === id)
 }
 
 export function getRelatedPosters(posterId: string, limit: number = 6): Poster[] {
@@ -2374,7 +2391,7 @@ export function getRelatedPosters(posterId: string, limit: number = 6): Poster[]
   if (!poster) return []
   
   // Get posters from same category, excluding current poster
-  const related = POSTERS.filter(
+  const related = UNIQUE_POSTERS.filter(
     p => p.category === poster.category && p.id !== posterId
   )
   
@@ -2384,11 +2401,48 @@ export function getRelatedPosters(posterId: string, limit: number = 6): Poster[]
 
 export function searchPosters(query: string): Poster[] {
   const lowerQuery = query.toLowerCase()
-  return POSTERS.filter(poster => 
+  return UNIQUE_POSTERS.filter(poster => 
     poster.id.toLowerCase().includes(lowerQuery) ||
     poster.description?.toLowerCase().includes(lowerQuery) ||
     poster.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
   )
+}
+
+type PaginationCacheKey = string
+
+interface PaginationCacheValue {
+  pages: Poster[][]
+  total: number
+  totalPages: number
+}
+
+const paginationCache = new Map<PaginationCacheKey, PaginationCacheValue>()
+
+function getPaginationCacheKey(pageSize: number, category?: PosterCategory): PaginationCacheKey {
+  return `${pageSize}:${category || 'all'}`
+}
+
+function buildPaginationCache(pageSize: number, category?: PosterCategory): PaginationCacheValue {
+  const source = category ? postersByCategory[category] || [] : UNIQUE_POSTERS
+  const pages: Poster[][] = []
+
+  for (let i = 0; i < source.length; i += pageSize) {
+    pages.push(source.slice(i, i + pageSize))
+  }
+
+  return {
+    pages,
+    total: source.length,
+    totalPages: Math.ceil(source.length / pageSize)
+  }
+}
+
+function getPaginationCache(pageSize: number, category?: PosterCategory): PaginationCacheValue {
+  const key = getPaginationCacheKey(pageSize, category)
+  if (!paginationCache.has(key)) {
+    paginationCache.set(key, buildPaginationCache(pageSize, category))
+  }
+  return paginationCache.get(key)!
 }
 
 // Pagination helper
@@ -2402,21 +2456,14 @@ export function getPaginatedPosters(
   currentPage: number
   total: number
 } {
-  let filteredPosters = POSTERS
-  
-  if (filter?.category) {
-    filteredPosters = getPostersByCategory(filter.category)
-  }
-  
-  const total = filteredPosters.length
-  const totalPages = Math.ceil(total / pageSize)
-  const start = (page - 1) * pageSize
-  const end = start + pageSize
+  const currentPage = Math.max(1, page)
+  const { pages, total, totalPages } = getPaginationCache(pageSize, filter?.category)
+  const posters = pages[currentPage - 1] || []
   
   return {
-    posters: filteredPosters.slice(start, end),
+    posters,
     totalPages,
-    currentPage: page,
+    currentPage,
     total,
   }
 }

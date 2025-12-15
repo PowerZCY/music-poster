@@ -7,6 +7,9 @@ import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main/server"
 import { appConfig } from '@/lib/appConfig'
 import { Metadata } from 'next'
 
+export const dynamic = 'force-static'
+export const revalidate = false
+
 interface CategoryPageProps {
   params: Promise<{
     locale: string
@@ -92,5 +95,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <SeoContent locale={locale} />
       <FAQ locale={locale} />
     </>
+  )
+}
+
+export async function generateStaticParams() {
+  return appConfig.i18n.locales.flatMap(locale =>
+    CATEGORIES.map(category => ({
+      locale,
+      slug: category.id,
+    }))
   )
 }

@@ -1,5 +1,9 @@
 import { Hero } from "@/components/hero";
 import { FAQ, SeoContent } from "@windrun-huaiin/third-ui/main/server";
+import { appConfig } from "@/lib/appConfig";
+
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -12,3 +16,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   )
 }
 
+export async function generateStaticParams() {
+  return appConfig.i18n.locales.map(locale => ({ locale }));
+}

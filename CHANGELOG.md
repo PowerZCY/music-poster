@@ -1,5 +1,13 @@
 # music-poster
 
+## 2.1.0
+
+### Minor Changes
+
+- fix(posters): fixed large CPU time issue, cause's by repeat handle all data
+  - implement unique posters and pagination API,
+  - update sitemap and static params
+
 ## 2.0.0
 
 ### Major Changes

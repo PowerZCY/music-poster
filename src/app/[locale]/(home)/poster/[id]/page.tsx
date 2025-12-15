@@ -1,12 +1,15 @@
 import { PosterCard } from '@/components/posters/PosterCard'
 import { PosterDetailClient } from '@/components/poster-detail-client'
-import { CATEGORIES, getPosterById, getRelatedPosters } from '@/data/posters'
+import { CATEGORIES, getPosterById, getRelatedPosters, UNIQUE_POSTERS } from '@/data/posters'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { appConfig } from '@/lib/appConfig'
 import { Metadata } from 'next'
+
+export const dynamic = 'force-static'
+export const revalidate = false
 
 interface PosterDetailPageProps {
   params: Promise<{
@@ -221,5 +224,14 @@ export default async function PosterDetailPage({ params }: PosterDetailPageProps
       </section>
       
     </>
+  )
+}
+
+export async function generateStaticParams() {
+  return appConfig.i18n.locales.flatMap(locale =>
+    UNIQUE_POSTERS.map(poster => ({
+      locale,
+      id: poster.id,
+    }))
   )
 }

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { appConfig } from "@/lib/appConfig"
-import { CATEGORIES, POSTERS } from '@/data/posters'
+import { CATEGORIES, UNIQUE_POSTERS } from '@/data/posters'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = appConfig.baseUrl
@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
   
   // Poster detail pages - based on POSTERS data
-  POSTERS.forEach(poster => {
+  UNIQUE_POSTERS.forEach(poster => {
     sitemap.push({
       url: `${baseUrl}/${locale}/poster/${poster.id}`,
       lastModified: new Date(),

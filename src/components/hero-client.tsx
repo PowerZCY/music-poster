@@ -2,7 +2,6 @@
 
 import { CategoryFilter } from '@/components/posters/CategoryFilter'
 import { PosterGrid } from '@/components/posters/PosterGrid'
-import { getPaginatedPosters } from '@/data/posters'
 import { useCallback, useState } from 'react'
 import type { Poster } from '@/types/poster'
 
@@ -14,18 +13,27 @@ interface HeroClientProps {
 
 export function HeroClient({ initialPosters, totalPages, locale }: HeroClientProps) {
   const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 20
   
   const loadMore = useCallback(async () => {
     const nextPage = currentPage + 1
-    const data = getPaginatedPosters(nextPage, 20)
+    const response = await fetch(`/api/posters?page=${nextPage}&pageSize=${pageSize}`)
     
-    if (data.posters.length > 0) {
+    if (!response.ok) {
+      console.error('Failed to fetch more posters')
+      return []
+    }
+    
+    const data = await response.json()
+    const posters = Array.isArray(data?.posters) ? data.posters : []
+    
+    if (posters.length > 0) {
       setCurrentPage(nextPage)
-      return data.posters
+      return posters
     }
     
     return []
-  }, [currentPage])
+  }, [currentPage, pageSize])
 
   return (
     <>
