@@ -1,12 +1,12 @@
 import { i18n } from '@/i18n';
 import { SiteIcon } from '@/lib/site-config';
 // import { globalLucideIcons as icons } from '@windrun-huaiin/base-ui/components/server';
-import { type LinkItemType } from 'fumadocs-ui/layouts/docs';
 import { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { getTranslations } from 'next-intl/server';
+import { ExtendedLinkItem, HomeTitle } from '@windrun-huaiin/third-ui/fuma/base';
 
 // home page normal menu
-export async function homeNavLinks(_locale: string): Promise<LinkItemType[]> {
+export async function homeNavLinks(_locale: string): Promise<ExtendedLinkItem[]> {
   // const t1 = await getTranslations({ locale: locale, namespace: 'linkPreview' });
   return [
     // {
@@ -19,7 +19,7 @@ export async function homeNavLinks(_locale: string): Promise<LinkItemType[]> {
 }
 
 // level special menu
-export async function levelNavLinks(_locale: string): Promise<LinkItemType[]> {
+export async function levelNavLinks(_locale: string): Promise<ExtendedLinkItem[]> {
   return [];
 }
 
@@ -31,9 +31,9 @@ export async function baseOptions(locale: string): Promise<BaseLayoutProps> {
       title: (
         <>
           <SiteIcon />
-          <span className="font-medium in-[.uwu]:hidden in-[header]:text-[15px]">
+          <HomeTitle>
             {t('title')}
-          </span>
+          </HomeTitle>
         </>
       ),
       transparentMode: 'none',

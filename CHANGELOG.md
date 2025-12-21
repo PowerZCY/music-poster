@@ -1,5 +1,11 @@
 # music-poster
 
+## 2.2.0
+
+### Minor Changes
+
+- fix(style): fixed footer style issues
+
 ## 2.1.0
 
 ### Minor Changes

@@ -10,7 +10,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import React from 'react';
 import './globals.css';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-static';
 
 export async function generateMetadata({
   params: paramsPromise
