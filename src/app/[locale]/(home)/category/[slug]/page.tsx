@@ -70,7 +70,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   
   return (
     <>
-      <section className="3xl mx-auto px-4 py-8">
+      <section className="mt-13 3xl mx-auto px-4 py-8">
         {/* Category Title and Description */}
         <div className="text-center mb-8 px-4">
           <h1 className="text-3xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">

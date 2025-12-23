@@ -94,7 +94,7 @@ export default async function PosterDetailPage({ params }: PosterDetailPageProps
   
   return (
     <>
-      <section className="max-w-5xl mx-auto px-4 py-8">
+      <section className="mt-10 max-w-5xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm">
           <ol className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
