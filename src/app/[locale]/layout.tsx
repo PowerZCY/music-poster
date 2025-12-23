@@ -7,6 +7,7 @@ import { NProgressBar } from '@windrun-huaiin/third-ui/main';
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import { getAsNeededLocalizedUrl } from '@windrun-huaiin/lib';
 import React from 'react';
 import './globals.css';
 
@@ -19,16 +20,14 @@ export async function generateMetadata({
 }) {
   const { locale } = await paramsPromise;
   const t = await getTranslations({ locale, namespace: 'home' });
-
   return {
     title: t('webTitle'),
     description: t('webDescription'),
     keywords: t('keywords'),
-    metadataBase: new URL(appConfig.baseUrl),
     alternates: {
-      canonical: `${appConfig.baseUrl}/${locale}`,
+      canonical: `${appConfig.baseUrl}${getAsNeededLocalizedUrl(locale, '/')}`,
       languages: {
-        "en": `${appConfig.baseUrl}/en`,
+        "en": `${appConfig.baseUrl}${getAsNeededLocalizedUrl('en', '/')}`,
       }
     },
     icons: [

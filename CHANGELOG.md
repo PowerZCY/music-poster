@@ -1,5 +1,11 @@
 # music-poster
 
+## 2.3.0
+
+### Minor Changes
+
+- feature(upgrade): support default localePrefix as-needed config
+
 ## 2.2.0
 
 ### Minor Changes

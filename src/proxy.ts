@@ -4,20 +4,36 @@ import { appConfig } from "@/lib/appConfig";
 
 const intlMiddleware = createMiddleware({
   locales: appConfig.i18n.locales,
-
   defaultLocale: appConfig.i18n.defaultLocale,
-  localePrefix: "always",
+  localePrefix: appConfig.i18n.localePrefixAsNeeded ? "as-needed" : "always", 
   localeDetection: false
 });
 
 
 export default function middleware(req: NextRequest) {
 
-  // handle root path to default locale permanent redirect
-  if (req.nextUrl.pathname === '/') {
-    const defaultLocale = appConfig.i18n.defaultLocale;
-    return NextResponse.redirect(new URL(`/${defaultLocale}`, req.url), 301);
-  }
+  const { defaultLocale, locales } = appConfig.i18n;
+    const pathname = req.nextUrl.pathname;
+    const hasLocalePrefix = locales.some(
+      (loc) => pathname === `/${loc}` || pathname.startsWith(`/${loc}/`)
+    );
+
+    // 对于无语言前缀的页面请求，根据配置进行处理
+    // 避免落不到 [locale] 路由。
+    if (!hasLocalePrefix && !pathname.startsWith('/api/')) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/${defaultLocale}${pathname}`;
+
+      if (appConfig.i18n.localePrefixAsNeeded) {
+        // as-needed: 内部rewrite，用户URL保持无前缀
+        console.log('[middleware rewrite]', { from: pathname, to: url.pathname });
+        return NextResponse.rewrite(url);
+      } else {
+        // always: 重定向给用户，让他们看到前缀URL
+        console.log('[middleware redirect]', { from: pathname, to: url.pathname });
+        return NextResponse.redirect(url);
+      }
+    }
 
   // handle trailing slash redirect
   if (req.nextUrl.pathname.length > 1 && req.nextUrl.pathname.endsWith('/')) {
@@ -31,6 +47,6 @@ export default function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params, skip api and trpc
-    "/((?!api|trpc|_next|sitemap.xml?|robots.txt?|[^?]*.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!api|trpc|_next|sitemap.xml?|robots.txt?|[^?]*.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|txt|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
